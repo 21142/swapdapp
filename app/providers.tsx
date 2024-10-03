@@ -1,10 +1,10 @@
 "use client";
 
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { ReactNode, useState, useEffect } from "react";
-import { wagmiConfig } from "../config/wagmi";
-import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactNode, useEffect, useState } from "react";
+import { WagmiProvider } from "wagmi";
+import { wagmiConfig } from "../config/wagmi";
 
 const client = new QueryClient();
 

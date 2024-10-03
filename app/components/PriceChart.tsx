@@ -1,26 +1,26 @@
 "use client";
 
+import { ONE_HOUR_IN_DAYS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
-import { DataPoint } from "../../types";
-import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
-import useMeasure from "react-use-measure";
-import { scaleLinear, scaleTime } from "@visx/scale";
-import { bisector, extent } from "d3-array";
+import { AxisBottom } from "@visx/axis";
+import { localPoint } from "@visx/event";
+import { LinearGradient } from "@visx/gradient";
 import { Group } from "@visx/group";
+import { scaleLinear, scaleTime } from "@visx/scale";
 import { AreaClosed, Bar, Line, LinePath } from "@visx/shape";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
+import { bisector, extent } from "d3-array";
 import { curveMonotoneX } from "d3-shape";
-import React, {
+import { timeFormat } from "d3-time-format";
+import {
   Dispatch,
   SetStateAction,
   type MouseEvent,
   type TouchEvent,
 } from "react";
+import useMeasure from "react-use-measure";
+import { DataPoint } from "../../types";
 import Spinner from "./Spinner";
-import { localPoint } from "@visx/event";
-import { timeFormat } from "d3-time-format";
-import { AxisBottom } from "@visx/axis";
-import { ONE_HOUR_IN_DAYS } from "@/lib/constants";
-import { LinearGradient } from "@visx/gradient";
 
 const getPrices = async (
   sellToken: string,
@@ -34,19 +34,18 @@ const getPrices = async (
 
   if (!res.ok) {
     console.error("Failed to fetch price:", res.statusText);
+    return [];
   }
 
   const data: DataPoint[] = await res.json();
   const lastDataPoint = data[data.length - 1];
-  const currentPrice = lastDataPoint[1];
+  const currentPrice = lastDataPoint ? lastDataPoint[1] : 0;
   setPrice && setPrice(currentPrice.toFixed(3));
-  console.log(currentPrice);
   return data;
 };
 
 const getXValue = (d: DataPoint) => new Date(d[0]);
 const getYValue = (d: DataPoint) => d[1];
-
 const bisect = bisector<DataPoint, Date>(getXValue).left;
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -64,12 +63,11 @@ type Props = {
 
 const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
   const { data, isLoading, error } = useQuery<DataPoint[]>({
-    queryKey: ["prices", sellToken, buyToken, period],
+    queryKey: ["prices", sellToken, buyToken, period, setPrice],
     queryFn: () => getPrices(sellToken, buyToken, period, setPrice),
   });
 
   const [ref, bounds] = useMeasure();
-
   const {
     tooltipData,
     showTooltip,
@@ -90,44 +88,15 @@ const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
         Error fetching chart, most likely due to too many requests
       </div>
     );
-  if (!data) return <div>No data</div>;
-
-  const width = bounds.width || 100;
-  const height = bounds.height || 100;
-
-  if (!Array.isArray(data) || data.length < 2) {
-    console.error("Data is not valid for chart rendering.");
+  if (!data || !Array.isArray(data) || data.length < 2)
     return (
       <div className="flex px-8 text-center w-full h-full items-center justify-center">
         No data available to display on chart.
       </div>
     );
-  }
 
-  function getDynamicYScale(
-    data: any[],
-    getYValue: (d: any) => number,
-    period: number,
-    height: number
-  ) {
-    const minY = Math.min(...data.map(getYValue));
-    const maxY = Math.max(...data.map(getYValue));
-
-    let adjustedMinY = minY;
-    let adjustedMaxY = maxY;
-
-    if (period === ONE_HOUR_IN_DAYS) {
-      const padding = 0.01;
-
-      adjustedMinY = minY - padding;
-      adjustedMaxY = maxY + padding;
-    }
-
-    return scaleLinear({
-      range: [height, 0],
-      domain: [adjustedMinY, adjustedMaxY],
-    });
-  }
+  const width = bounds.width || 100;
+  const height = bounds.height || 100;
 
   const margin = { top: 10, right: 0, bottom: 10, left: 0 };
 
@@ -176,6 +145,31 @@ const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
       tooltipTop: yScale(getYValue(d)),
     });
   };
+
+  function getDynamicYScale(
+    data: DataPoint[],
+    getYValue: (d: DataPoint) => number,
+    period: number,
+    height: number
+  ) {
+    const minY = Math.min(...data.map(getYValue));
+    const maxY = Math.max(...data.map(getYValue));
+
+    let adjustedMinY = minY;
+    let adjustedMaxY = maxY;
+
+    if (period === ONE_HOUR_IN_DAYS) {
+      const padding = 0.01;
+
+      adjustedMinY -= padding;
+      adjustedMaxY += padding;
+    }
+
+    return scaleLinear({
+      range: [height, 0],
+      domain: [adjustedMinY, adjustedMaxY],
+    });
+  }
 
   function setNumberOfTicksBasedOnWidth(width: number): number | undefined {
     if (width < 400) {
@@ -289,12 +283,11 @@ const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
       </svg>
       {tooltipData && (
         <TooltipWithBounds
-          key={Math.random()}
           top={tooltipTop}
           left={tooltipLeft}
           style={tooltipStyles}
         >
-          <div className="flex flex-col items-start py-1.5 px-2">
+          <div className="flex flex-col items-start p-2">
             <span className="font-medium text-lg">
               {formatter.format(getYValue(tooltipData))}
             </span>

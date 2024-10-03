@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { MainNavItem } from "../../types";
-import { siteConfig } from "../../config/site";
 import { type ReactNode } from "react";
+import { siteConfig } from "../../config/site";
+import { MainNavItem } from "../../types";
 
 interface MobileNavProps {
   items: MainNavItem[];

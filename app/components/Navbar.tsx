@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { MainNavItem } from "../../types";
-import { siteConfig } from "../../config/site";
-import { type ReactNode, useState } from "react";
-import { MobileNav } from "./MobileNavbar";
 import { MenuIcon, XIcon } from "lucide-react";
 import Image from "next/image";
+import { type ReactNode, useState } from "react";
+import { siteConfig } from "../../config/site";
+import { MainNavItem } from "../../types";
+import { MobileNav } from "./MobileNavbar";
 
 interface MainNavProps {
   items?: MainNavItem[];
