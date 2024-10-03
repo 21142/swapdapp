@@ -82,6 +82,19 @@ a {
   body {
     @apply bg-background text-foreground;
   }
+  .background--custom {
+    background: linear-gradient(130deg, #f6eaff, #eeefff, #dee6e9);
+    background-size: 200% 200%;
+    animation: gradient 4s alternate infinite;
+  }
+  @keyframes gradient {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 100%;
+    }
+  }
 }
 
 input::-webkit-outer-spin-button,

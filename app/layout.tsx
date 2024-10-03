@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { AppProviders } from "./providers";
@@ -12,12 +12,18 @@ export const metadata: Metadata = {
   description: "Swap gasless on the Ethereum network",
 };
 
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
+};
+
 function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col">
+      <body>
+        <div className="-z-10 background--custom absolute inset-0 w-full h-full min-w-screen min-h-screen" />
         <AppProviders>
-          <header className="px-6 z-40 mx-auto bg-background">
+          <header className="px-8 z-40 xl:container mx-auto">
             <div className="flex h-20 items-center justify-between py-6">
               <Navbar items={siteConfig.mainNav} />
               <nav>
@@ -25,7 +31,7 @@ function RootLayout({ children }: { children: ReactNode }) {
               </nav>
             </div>
           </header>
-          <main className="flex-1">{children}</main>
+          <main className="xl:container mx-auto">{children}</main>
         </AppProviders>
       </body>
     </html>

@@ -9,6 +9,7 @@ import { siteConfig } from "../../config/site";
 import { type ReactNode, useState } from "react";
 import { MobileNav } from "./MobileNavbar";
 import { MenuIcon, XIcon } from "lucide-react";
+import Image from "next/image";
 
 interface MainNavProps {
   items?: MainNavItem[];
@@ -22,6 +23,7 @@ export function Navbar({ items, children }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
+        <Image src="/favicon.ico" width={24} height={24} alt="tokenIcon" />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
         </span>
