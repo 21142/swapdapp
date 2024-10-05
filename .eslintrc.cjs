@@ -20,6 +20,7 @@ const config = {
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
       },
     },
   ],
