@@ -1,7 +1,7 @@
 "use client";
 
+import { useChartPrices } from "@/hooks/useChartPrices";
 import { ONE_HOUR_IN_DAYS } from "@/lib/constants";
-import { useQuery } from "@tanstack/react-query";
 import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { LinearGradient } from "@visx/gradient";
@@ -13,36 +13,14 @@ import { bisector, extent } from "d3-array";
 import { curveMonotoneX } from "d3-shape";
 import { timeFormat } from "d3-time-format";
 import {
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
   type MouseEvent,
+  type SetStateAction,
   type TouchEvent,
 } from "react";
 import useMeasure from "react-use-measure";
-import { DataPoint } from "../../types";
+import { type DataPoint } from "../../types";
 import Spinner from "./Spinner";
-
-const getPrices = async (
-  sellToken: string,
-  buyToken: string,
-  period: number,
-  setPrice?: (x: string) => void
-) => {
-  const res = await fetch(
-    `/api/chart?sellToken=${sellToken}&buyToken=${buyToken}&period=${period}`
-  );
-
-  if (!res.ok) {
-    console.error("Failed to fetch price:", res.statusText);
-    return [];
-  }
-
-  const data: DataPoint[] = await res.json();
-  const lastDataPoint = data[data.length - 1];
-  const currentPrice = lastDataPoint ? lastDataPoint[1] : 0;
-  setPrice && setPrice(currentPrice.toFixed(3));
-  return data;
-};
 
 const getXValue = (d: DataPoint) => new Date(d[0]);
 const getYValue = (d: DataPoint) => d[1];
@@ -58,13 +36,15 @@ type Props = {
   sellToken: string;
   buyToken: string;
   period: number;
-  setPrice?: Dispatch<SetStateAction<string | undefined>>;
+  setPrice: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
-  const { data, isLoading, error } = useQuery<DataPoint[]>({
-    queryKey: ["prices", sellToken, buyToken, period, setPrice],
-    queryFn: () => getPrices(sellToken, buyToken, period, setPrice),
+  const { data, isLoading, error } = useChartPrices({
+    sellToken,
+    buyToken,
+    period,
+    setPrice,
   });
 
   const [ref, bounds] = useMeasure();

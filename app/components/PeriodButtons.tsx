@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { periodLabels, periods, PeriodsType } from "@/lib/constants";
+import { periodLabels, periods, type PeriodsType } from "@/lib/constants";
 
 interface PeriodButtonsProps {
   period: PeriodsType;

@@ -1,8 +1,11 @@
+import { DEFAULT_BUY_TOKEN } from "@/lib/utils";
+
 export async function GET(request: Request): Promise<Response> {
   try {
     const { searchParams } = new URL(request.url);
     const sellToken = searchParams.get("sellToken") || "";
-    const buyToken = searchParams.get("buyToken") || "";
+    //  const buyToken = searchParams.get("buyToken") || "";
+    const buyToken = DEFAULT_BUY_TOKEN;
     const period = searchParams.get("period") || "";
 
     if (!sellToken || !buyToken || !period) {

@@ -1,7 +1,12 @@
 import { type NextRequest } from "next/server";
-async function fetchPriceData(searchParams: URLSearchParams): Promise<any> {
+async function fetchPriceData(
+  searchParams: URLSearchParams,
+  chainId: string
+): Promise<unknown> {
   const res = await fetch(
-    `https://api.0x.org/tx-relay/v1/swap/price?${searchParams}`,
+    `https://${
+      chainId == "11155111" ? "sepolia.api" : "api"
+    }.0x.org/swap/v1/price?${searchParams}`,
     {
       headers: {
         "0x-api-key": process.env.NEXT_PUBLIC_ZEROEX_API_KEY as string,
@@ -29,7 +34,7 @@ export async function GET(request: NextRequest): Promise<Response> {
   }
 
   try {
-    const data = await fetchPriceData(searchParams);
+    const data = await fetchPriceData(searchParams, chainId);
     return Response.json(data);
   } catch (error: unknown) {
     if (error instanceof Error) {

@@ -1,6 +1,6 @@
 const SeparatorVertical = () => {
   return (
-    <div className="hidden md:block">
+    <div className="hidden sm:block">
       <svg
         width="1"
         height="34"
