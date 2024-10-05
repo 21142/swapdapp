@@ -9,7 +9,7 @@ async function fetchPriceData(
     }.0x.org/swap/v1/price?${searchParams}`,
     {
       headers: {
-        "0x-api-key": process.env.NEXT_PUBLIC_ZEROEX_API_KEY as string,
+        "0x-api-key": process.env.ZEROEX_API_KEY as string,
         "0x-chain-id": searchParams.get("chainId") as string,
       },
     }
