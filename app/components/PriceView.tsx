@@ -97,7 +97,7 @@ const PriceView = () => {
   return (
     <div className="py-6 px-4">
       <div className="flex flex-col lg:flex-row items-start pl-5 lg:items-center justify-between">
-        <div className="text-3xl pb-4 flex items-center gap-x-2 font-semibold text-zinc-800">
+        <div className="text-3xl pb-4 flex items-end gap-x-2 font-semibold text-zinc-800">
           <Image
             width={36}
             height={36}
