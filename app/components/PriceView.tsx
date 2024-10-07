@@ -16,7 +16,6 @@ import {
   type PeriodsType,
   periodWordings,
   POLYGON_CHAIN_ID,
-  SEPOLIA_CHAIN_ID,
   type Token,
 } from "@/lib/constants";
 import { cn, getTokensBySymbolByChain } from "@/lib/utils";
@@ -36,30 +35,19 @@ const PriceView = () => {
   const [sellToken, setSellToken] = useState<string>("weth");
   const [sellTokenData, setSellTokenData] = useState<Token | undefined>();
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [buyToken, setBuyToken] = useState<string>("usdc");
+  const [buyToken, setBuyToken] = useState<string>("link");
   const [buyTokenData, setBuyTokenData] = useState<Token | undefined>();
   const [price, setPrice] = useState<string>();
   const { address, chain } = useAccount();
   const { switchChain } = useSwitchChain();
   const [chainId, setChainId] = useState<number>(chain?.id || POLYGON_CHAIN_ID);
 
-  const { data: balance } = useBalance({
-    address: address,
-  });
-
-  const insufficientBalance =
-    balance && sellAmount ? parseUnits(sellAmount, 18) > balance.value : true;
-
   useEffect(() => {
     if (chain?.id) {
       setChainId(chain.id);
     }
-
-    if (chain?.id === SEPOLIA_CHAIN_ID) {
-      setBuyToken("link");
-    } else if (chain?.id === POLYGON_CHAIN_ID) {
-      setBuyToken("usdc");
-    }
+    setSellToken("weth");
+    setBuyToken("link");
   }, [chain]);
 
   useEffect(() => {
@@ -68,6 +56,13 @@ const PriceView = () => {
     setBuyTokenData(tokens[buyToken]);
   }, [chain?.id, sellToken, buyToken, chainId]);
 
+  const { data: balance } = useBalance({
+    address: address,
+    token: sellTokenData?.address,
+  });
+
+  const insufficientBalance =
+    balance && sellAmount ? parseUnits(sellAmount, 18) > balance.value : true;
   const swapTokenDirection = () => {
     setSellToken(buyToken);
     setBuyToken(sellToken);

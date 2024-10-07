@@ -96,6 +96,15 @@ export const POLYGON_TOKENS: Token[] = [
     logoURI:
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/dai.svg",
   },
+  {
+    chainId: POLYGON_CHAIN_ID,
+    name: "ChainLink",
+    symbol: "LINK",
+    decimals: 18,
+    address: "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/link.svg",
+  },
 ];
 
 export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
@@ -158,6 +167,16 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     logoURI:
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/dai.svg",
     coingeckoApiId: "polygon-pos-bridged-dai-polygon-pos",
+  },
+  link: {
+    chainId: POLYGON_CHAIN_ID,
+    name: "ChainLink",
+    symbol: "LINK",
+    decimals: 18,
+    address: "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/link.svg",
+    coingeckoApiId: "chainlink",
   },
 };
 
