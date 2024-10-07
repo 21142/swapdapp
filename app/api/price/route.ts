@@ -1,3 +1,4 @@
+import { SEPOLIA_CHAIN_ID } from "@/lib/constants";
 import { type NextRequest } from "next/server";
 async function fetchPriceData(
   searchParams: URLSearchParams,
@@ -5,7 +6,7 @@ async function fetchPriceData(
 ): Promise<unknown> {
   const res = await fetch(
     `https://${
-      chainId == "11155111" ? "sepolia.api" : "api"
+      Number(chainId) === SEPOLIA_CHAIN_ID ? "sepolia.api" : "api"
     }.0x.org/swap/v1/price?${searchParams}`,
     {
       headers: {

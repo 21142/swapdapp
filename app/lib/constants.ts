@@ -1,5 +1,8 @@
 import { type Address } from "viem";
 
+export const SEPOLIA_CHAIN_ID = 11155111;
+export const POLYGON_CHAIN_ID = 137;
+
 export const ONE_HOUR_IN_DAYS = 0.04166666666;
 
 export const periods = {
@@ -40,7 +43,7 @@ export interface Token {
 
 export const POLYGON_TOKENS: Token[] = [
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Matic",
     symbol: "WMATIC",
     decimals: 18,
@@ -49,7 +52,7 @@ export const POLYGON_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/matic.svg",
   },
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Ether",
     symbol: "WETH",
     decimals: 18,
@@ -58,7 +61,7 @@ export const POLYGON_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/weth.svg",
   },
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Bitcoin",
     symbol: "WBTC",
     decimals: 18,
@@ -67,7 +70,7 @@ export const POLYGON_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/wbtc.svg",
   },
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "USD Coin",
     symbol: "USDC",
     decimals: 6,
@@ -76,7 +79,7 @@ export const POLYGON_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/usdc.svg",
   },
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "USDT",
     symbol: "USDT",
     decimals: 6,
@@ -85,7 +88,7 @@ export const POLYGON_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/usdt.svg",
   },
   {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Dai - PoS",
     symbol: "DAI",
     decimals: 18,
@@ -97,7 +100,7 @@ export const POLYGON_TOKENS: Token[] = [
 
 export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
   wmatic: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Matic",
     symbol: "WMATIC",
     decimals: 18,
@@ -107,7 +110,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "wmatic",
   },
   weth: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Ether",
     symbol: "WETH",
     decimals: 18,
@@ -117,7 +120,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "polygon-pos-bridged-weth-polygon-pos",
   },
   wbtc: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Wrapped Bitcoin",
     symbol: "WBTC",
     decimals: 18,
@@ -127,7 +130,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "polygon-bridged-wbtc-polygon-pos",
   },
   usdc: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "USD Coin",
     symbol: "USDC",
     decimals: 6,
@@ -137,7 +140,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "bridged-usdc-polygon-pos-bridge",
   },
   usdt: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "USDT",
     symbol: "USDT",
     decimals: 6,
@@ -147,7 +150,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "polygon-bridged-usdt-polygon",
   },
   dai: {
-    chainId: 137,
+    chainId: POLYGON_CHAIN_ID,
     name: "Dai - PoS",
     symbol: "DAI",
     decimals: 18,
@@ -160,7 +163,7 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
 
 export const SEPOLIA_TOKENS: Token[] = [
   {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "Wrapped Ether",
     symbol: "WETH",
     decimals: 18,
@@ -169,7 +172,7 @@ export const SEPOLIA_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/weth.svg",
   },
   {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "Uniswap",
     symbol: "UNI",
     decimals: 18,
@@ -178,7 +181,7 @@ export const SEPOLIA_TOKENS: Token[] = [
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
   },
   {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "ChainLink",
     symbol: "LINK",
     decimals: 18,
@@ -190,7 +193,7 @@ export const SEPOLIA_TOKENS: Token[] = [
 
 export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
   weth: {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "Wrapped Ether",
     symbol: "WETH",
     decimals: 18,
@@ -200,7 +203,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "weth",
   },
   uni: {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "Uniswap",
     symbol: "UNI",
     decimals: 18,
@@ -210,7 +213,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
     coingeckoApiId: "uniswap",
   },
   link: {
-    chainId: 11155111,
+    chainId: SEPOLIA_CHAIN_ID,
     name: "ChainLink",
     symbol: "LINK",
     decimals: 18,
@@ -223,7 +226,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
 
 // export const POLYGON_TOKENS_BY_ADDRESS: Record<string, Token> = {
 //   "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270": {
-//     chainId: 137,
+//     chainId: POLYGON_CHAIN_ID,
 //     name: "Wrapped Matic",
 //     symbol: "WMATIC",
 //     decimals: 18,
@@ -232,7 +235,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
 //       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/matic.svg",
 //   },
 //   "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359": {
-//     chainId: 137,
+//     chainId: POLYGON_CHAIN_ID,
 //     name: "USD Coin",
 //     symbol: "USDC",
 //     decimals: 6,
@@ -241,7 +244,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
 //       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/usdc.svg",
 //   },
 //   "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
-//     chainId: 137,
+//     chainId: POLYGON_CHAIN_ID,
 //     name: "Dai - PoS",
 //     symbol: "DAI",
 //     decimals: 18,

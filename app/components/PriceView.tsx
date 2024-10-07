@@ -15,6 +15,8 @@ import {
   periods,
   type PeriodsType,
   periodWordings,
+  POLYGON_CHAIN_ID,
+  SEPOLIA_CHAIN_ID,
   type Token,
 } from "@/lib/constants";
 import { cn, getTokensBySymbolByChain } from "@/lib/utils";
@@ -39,7 +41,7 @@ const PriceView = () => {
   const [price, setPrice] = useState<string>();
   const { address, chain } = useAccount();
   const { switchChain } = useSwitchChain();
-  const [chainId, setChainId] = useState<number>(chain?.id || 137);
+  const [chainId, setChainId] = useState<number>(chain?.id || POLYGON_CHAIN_ID);
 
   const { data: balance } = useBalance({
     address: address,
@@ -53,9 +55,9 @@ const PriceView = () => {
       setChainId(chain.id);
     }
 
-    if (chain?.id === 11155111) {
+    if (chain?.id === SEPOLIA_CHAIN_ID) {
       setBuyToken("link");
-    } else if (chain?.id === 137) {
+    } else if (chain?.id === POLYGON_CHAIN_ID) {
       setBuyToken("usdc");
     }
   }, [chain]);
@@ -226,12 +228,12 @@ const PriceView = () => {
               <div className="w-full flex justify-center">
                 <ConnectButton />
               </div>
-            ) : chain?.id !== 137 ? (
+            ) : chain?.id !== POLYGON_CHAIN_ID ? (
               <div className="w-full flex justify-center">
                 <Button
                   onClick={() =>
                     switchChain({
-                      chainId: 137,
+                      chainId: POLYGON_CHAIN_ID,
                     })
                   }
                   className="w-full rounded-full"
