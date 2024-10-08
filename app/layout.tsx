@@ -8,8 +8,8 @@ import { Navbar } from "./components/Navbar";
 import { AppProviders } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Swap Gasless",
-  description: "Swap gasless on the Ethereum network",
+  title: "Swap dApp",
+  description: "Swap dApp on the Ethereum network",
 };
 
 export const viewport: Viewport = {

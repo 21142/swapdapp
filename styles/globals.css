@@ -84,9 +84,9 @@ a {
     @apply bg-background text-foreground;
   }
   .background--custom {
-    background: linear-gradient(130deg, #f2e2fe, #eeefff, #dff4fc);
+    background: linear-gradient(130deg, #f6d4ff, #f7f7f8, #f0dffc);
     background-size: 300% 300%;
-    animation: gradient 4s alternate infinite;
+    animation: gradient 5s alternate infinite;
   }
   @keyframes gradient {
     0% {

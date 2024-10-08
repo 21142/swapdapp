@@ -37,15 +37,36 @@ type Props = {
   buyToken: string;
   period: number;
   setPrice: Dispatch<SetStateAction<string | undefined>>;
+  setDelta: Dispatch<SetStateAction<number | undefined>>;
 };
 
-const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
-  const { data, isLoading, error } = useChartPrices({
+const greenStroke = "rgba(0, 185, 109, 1)";
+
+const redStroke = "rgba(255, 102, 110, 1)";
+
+const greenGradient = "rgba(225, 250, 239, 1)";
+
+const redGradient = "rgba(255, 225, 225, 1)";
+
+const PriceChart = ({
+  sellToken,
+  buyToken,
+  period,
+  setPrice,
+  setDelta,
+}: Props) => {
+  const { data, delta, isLoading, error } = useChartPrices({
     sellToken,
     buyToken,
     period,
     setPrice,
+    setDelta,
   });
+
+  const chartStroke = delta && delta > 0 ? greenStroke : redStroke;
+
+  const chartGradientFrom = delta && delta > 0 ? greenGradient : redGradient;
+  const chartGradientTo = delta && delta > 0 ? greenGradient : redGradient;
 
   const [ref, bounds] = useMeasure();
   const {
@@ -171,8 +192,8 @@ const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
       >
         <LinearGradient
           id="area-gradient"
-          from={"rgba(225, 250, 239, 1)"}
-          to={"rgba(225, 250, 239, 1)"}
+          from={chartGradientFrom}
+          to={chartGradientTo}
           fromOpacity={1}
           toOpacity={0}
           fromOffset={"0%"}
@@ -194,7 +215,7 @@ const PriceChart = ({ sellToken, buyToken, period, setPrice }: Props) => {
             data={data}
             x={(d) => xScale(getXValue(d)) ?? 0}
             y={(d) => yScale(getYValue(d)) ?? 0}
-            stroke={"rgba(0, 185, 109, 1)"}
+            stroke={chartStroke}
             fill="transparent"
             strokeWidth={2}
             curve={curveMonotoneX}

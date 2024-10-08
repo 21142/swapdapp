@@ -3,6 +3,15 @@ import { type Address } from "viem";
 export const SEPOLIA_CHAIN_ID = 11155111;
 export const POLYGON_CHAIN_ID = 137;
 
+export const AFFILIATE_FEE = 0.01;
+export const FEE_RECIPIENT = "0x1fBF50a2B2DbC3C0Df63c1435145D00543fEf355";
+
+export const POLYGON_AND_SEPOLIA_EXCHANGE_PROXY =
+  "0xDef1C0ded9bec7F1a1670819833240f027b25EfF";
+
+export const MAX_ALLOWANCE =
+  115792089237316195423570985008687907853269984665640564039457584007913129639935n;
+
 export const ONE_HOUR_IN_DAYS = 0.04166666666;
 
 export const periods = {
@@ -105,6 +114,15 @@ export const POLYGON_TOKENS: Token[] = [
     logoURI:
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/link.svg",
   },
+  {
+    chainId: POLYGON_CHAIN_ID,
+    name: "Uniswap",
+    symbol: "UNI",
+    decimals: 18,
+    address: "0xb33EaAd8d922B1083446DC23f610c2567fB5180f",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
+  },
 ];
 
 export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
@@ -178,6 +196,16 @@ export const POLYGON_TOKENS_BY_SYMBOL: Record<string, Token> = {
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/link.svg",
     coingeckoApiId: "chainlink",
   },
+  uni: {
+    chainId: POLYGON_CHAIN_ID,
+    name: "Uniswap",
+    symbol: "UNI",
+    decimals: 18,
+    address: "0xb33EaAd8d922B1083446DC23f610c2567fB5180f",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
+    coingeckoApiId: "uniswap",
+  },
 };
 
 export const SEPOLIA_TOKENS: Token[] = [
@@ -195,7 +223,7 @@ export const SEPOLIA_TOKENS: Token[] = [
     name: "Uniswap",
     symbol: "UNI",
     decimals: 18,
-    address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+    address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     logoURI:
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
   },
@@ -226,7 +254,7 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
     name: "Uniswap",
     symbol: "UNI",
     decimals: 18,
-    address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+    address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     logoURI:
       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
     coingeckoApiId: "uniswap",
@@ -243,35 +271,65 @@ export const SEPOLIA_TOKENS_BY_SYMBOL: Record<string, Token> = {
   },
 };
 
-// export const POLYGON_TOKENS_BY_ADDRESS: Record<string, Token> = {
-//   "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270": {
-//     chainId: POLYGON_CHAIN_ID,
-//     name: "Wrapped Matic",
-//     symbol: "WMATIC",
-//     decimals: 18,
-//     address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
-//     logoURI:
-//       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/matic.svg",
-//   },
-//   "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359": {
-//     chainId: POLYGON_CHAIN_ID,
-//     name: "USD Coin",
-//     symbol: "USDC",
-//     decimals: 6,
-//     address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
-//     logoURI:
-//       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/usdc.svg",
-//   },
-//   "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
-//     chainId: POLYGON_CHAIN_ID,
-//     name: "Dai - PoS",
-//     symbol: "DAI",
-//     decimals: 18,
-//     address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
-//     logoURI:
-//       "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/dai.svg",
-//   },
-// };
+export const POLYGON_TOKENS_BY_ADDRESS: Record<string, Token> = {
+  "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270": {
+    chainId: POLYGON_CHAIN_ID,
+    name: "Wrapped Matic",
+    symbol: "WMATIC",
+    decimals: 18,
+    address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/matic.svg",
+  },
+  "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359": {
+    chainId: POLYGON_CHAIN_ID,
+    name: "USD Coin",
+    symbol: "USDC",
+    decimals: 6,
+    address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/usdc.svg",
+  },
+  "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
+    chainId: POLYGON_CHAIN_ID,
+    name: "Dai - PoS",
+    symbol: "DAI",
+    decimals: 18,
+    address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/dai.svg",
+  },
+};
+
+export const SEPOLIA_TOKENS_BY_ADDRESS: Record<string, Token> = {
+  "0xfff9976782d46cc05630d1f6ebab18b2324d6b14": {
+    chainId: SEPOLIA_CHAIN_ID,
+    name: "Wrapped Ether",
+    symbol: "WETH",
+    decimals: 18,
+    address: "0xfff9976782d46cc05630d1f6ebab18b2324d6b14",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/weth.svg",
+  },
+  "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984": {
+    chainId: SEPOLIA_CHAIN_ID,
+    name: "Uniswap",
+    symbol: "UNI",
+    decimals: 18,
+    address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/uni.svg",
+  },
+  "0x779877a7b0d9e8603169ddbd7836e478b4624789": {
+    chainId: SEPOLIA_CHAIN_ID,
+    name: "ChainLink",
+    symbol: "LINK",
+    decimals: 18,
+    address: "0x779877a7b0d9e8603169ddbd7836e478b4624789",
+    logoURI:
+      "https://raw.githubusercontent.com/maticnetwork/polygon-token-assets/main/assets/tokenAssets/link.svg",
+  },
+};
 
 // export const POLYGON_AMOY_TOKENS: Token[] = [
 //   {

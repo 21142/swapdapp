@@ -1,15 +1,15 @@
 import { SEPOLIA_CHAIN_ID } from "@/lib/constants";
 import { type NextRequest } from "next/server";
-import { ZeroExApiPriceResponse } from "../../../types";
+import { ZeroExApiQuoteResponse } from "../../../types";
 
-async function fetchPriceData(
+async function fetchQuoteData(
   searchParams: URLSearchParams,
   chainId: string
-): Promise<ZeroExApiPriceResponse> {
+): Promise<ZeroExApiQuoteResponse> {
   const res = await fetch(
     `https://${
       Number(chainId) === SEPOLIA_CHAIN_ID ? "sepolia.api" : "api"
-    }.0x.org/swap/v1/price?${searchParams}`,
+    }.0x.org/swap/v1/quote?${searchParams}`,
     {
       headers: {
         "0x-api-key": process.env.ZEROEX_API_KEY as string,
@@ -19,7 +19,9 @@ async function fetchPriceData(
   );
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch price data: ${res.statusText}`);
+    throw new Error(
+      `Failed to fetch quote data from 0x API: ${res.statusText}`
+    );
   }
 
   return await res.json();
@@ -37,7 +39,7 @@ export async function GET(request: NextRequest): Promise<Response> {
   }
 
   try {
-    const data = await fetchPriceData(searchParams, chainId);
+    const data = await fetchQuoteData(searchParams, chainId);
     return Response.json(data);
   } catch (error: unknown) {
     if (error instanceof Error) {

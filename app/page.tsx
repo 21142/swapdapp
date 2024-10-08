@@ -1,7 +1,7 @@
 "use client";
 
-import PriceView from "./components/PriceView";
+import TokenPage from "./components/TokenPage";
 
 export default function Page() {
-  return <PriceView />;
+  return <TokenPage />;
 }

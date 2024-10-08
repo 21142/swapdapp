@@ -4,9 +4,14 @@ import { periodLabels, periods, type PeriodsType } from "@/lib/constants";
 interface PeriodButtonsProps {
   period: PeriodsType;
   setPeriod: (period: PeriodsType) => void;
+  setDelta: (delta: number | undefined) => void;
 }
 
-const PeriodButtons: React.FC<PeriodButtonsProps> = ({ period, setPeriod }) => {
+const PeriodButtons: React.FC<PeriodButtonsProps> = ({
+  period,
+  setPeriod,
+  setDelta,
+}) => {
   const buttonData = Object.entries(periods).map(([key, value]) => ({
     value,
     label: periodLabels[key as keyof typeof periods],
@@ -18,7 +23,10 @@ const PeriodButtons: React.FC<PeriodButtonsProps> = ({ period, setPeriod }) => {
         <Button
           key={value}
           variant={period === value ? "toned" : "ghost"}
-          onClick={() => setPeriod(value)}
+          onClick={() => {
+            setPeriod(value);
+            setDelta(undefined);
+          }}
         >
           {label}
         </Button>

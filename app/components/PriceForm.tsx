@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { type Token } from "@/lib/constants";
+import { AFFILIATE_FEE, FEE_RECIPIENT, type Token } from "@/lib/constants";
 import { getTokensBySymbolByChain } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import qs from "qs";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { type Address, formatUnits, parseUnits } from "viem";
+import { ZeroExApiPriceResponse } from "../../types";
 import TokenSelector from "./TokenSelector";
 
-interface SwapFormProps {
-  address: Address | undefined;
+interface PriceFormProps {
   chainId: number;
   sellToken: string;
   setSellToken: Dispatch<SetStateAction<string>>;
@@ -34,10 +34,11 @@ interface SwapFormProps {
     | undefined;
   setPrice: Dispatch<SetStateAction<string | undefined>>;
   swapTokenDirection: () => void;
+  takerAddress: Address | undefined;
+  setPriceResponse?: (price: any) => void;
 }
 
-const SwapForm: React.FC<SwapFormProps> = ({
-  address,
+const PriceForm: React.FC<PriceFormProps> = ({
   chainId,
   sellToken,
   setSellToken,
@@ -54,6 +55,8 @@ const SwapForm: React.FC<SwapFormProps> = ({
   balance,
   setPrice,
   swapTokenDirection,
+  takerAddress,
+  setPriceResponse,
 }) => {
   const [error, setError] = useState([]);
 
@@ -97,13 +100,16 @@ const SwapForm: React.FC<SwapFormProps> = ({
       sellToken: sellTokenData?.address,
       buyToken: buyTokenData?.address,
       sellAmount: parsedSellAmount,
-      // buyAmount: parsedBuyAmount,
       chainId,
+      takerAddress,
+      feeRecipient: FEE_RECIPIENT,
+      buyTokenPercentageFee: AFFILIATE_FEE,
+      feeRecipientTradeSurplus: FEE_RECIPIENT,
     };
 
     async function fetchPrice() {
       const response = await fetch(`/api/price?${qs.stringify(params)}`);
-      const data = await response.json();
+      const data: ZeroExApiPriceResponse = await response.json();
 
       if (data?.validationErrors?.length > 0) {
         setError(data.validationErrors);
@@ -111,7 +117,8 @@ const SwapForm: React.FC<SwapFormProps> = ({
         setError([]);
       }
       if (data.buyAmount) {
-        setBuyAmount(formatUnits(data.buyAmount, buyTokenDecimals));
+        setBuyAmount(formatUnits(BigInt(data.buyAmount), buyTokenDecimals));
+        setPriceResponse && setPriceResponse(data);
       }
     }
 
@@ -119,18 +126,14 @@ const SwapForm: React.FC<SwapFormProps> = ({
       fetchPrice();
     }
   }, [
-    sellToken,
-    buyToken,
-    sellAmount,
-    buyAmount,
-    address,
-    chainId,
-    setPrice,
     sellTokenData,
     buyTokenData,
     parsedSellAmount,
-    setBuyAmount,
-    buyTokenDecimals,
+    chainId,
+    sellAmount,
+    setPrice,
+    FEE_RECIPIENT,
+    AFFILIATE_FEE,
   ]);
 
   return (
@@ -219,7 +222,7 @@ const SwapForm: React.FC<SwapFormProps> = ({
             onTokenChange={handleBuyTokenChange}
           />
         </div>
-        <div className="flex break-normal justify-between items-center rounded overflow-hidden pt-0 pb-4 p-2">
+        <div className="flex flex-col justify-between items-start rounded overflow-hidden pt-0 pb-4 p-2">
           <Input
             id="buy-amount"
             type="number"
@@ -227,17 +230,27 @@ const SwapForm: React.FC<SwapFormProps> = ({
             className="w-full p-3 border-none ring-0 text-3xl font-medium placeholder:text-zinc-400 text-zinc-600 cursor-not-allowed"
             defaultValue={buyAmount}
           />
+          <div className="text-zinc-400 ml-0.5 text-sm px-3 pt-3">
+            {buyAmount
+              ? "Fee: " +
+                (Number(buyAmount) * AFFILIATE_FEE).toFixed(
+                  getTokensBySymbolByChain(chainId)[buyToken].decimals
+                ) +
+                " " +
+                getTokensBySymbolByChain(chainId)[buyToken].symbol
+              : null}
+          </div>
         </div>
       </div>
       <hr className="border-zinc-200/50" />
       {error.length > 0 &&
         error.map(({ field, code, reason, description }, index) => (
-          <div key={index} className="text-red-500 text-sm">
+          <span key={index} className="text-red-500 text-sm">
             [{code}] {reason} - {description}
-          </div>
+          </span>
         ))}
     </form>
   );
 };
 
-export default SwapForm;
+export default PriceForm;
