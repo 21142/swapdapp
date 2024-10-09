@@ -154,8 +154,8 @@ const PriceForm: React.FC<PriceFormProps> = ({
               onTokenChange={handleSellTokenChange}
             />
           </div>
-          <div className="flex flex-col justify-center gap-y-4 items-end">
-            <span className="text-muted-foreground text-xs mt-4 mr-6">
+          <div className="flex flex-col justify-center gap-y-4 items-end text-end md:text-start">
+            <span className="text-muted-foreground text-xs mt-4 mr-6 w-full md:w-fit">
               Balance:{" "}
               {!balance || balance?.formatted == "0" ? "-" : balance?.formatted}
             </span>
@@ -172,7 +172,7 @@ const PriceForm: React.FC<PriceFormProps> = ({
                 </Button>
               )}
               <Button
-                className="mx-1 rounded-full text-foreground bg-zinc-300/20 hover:bg-zinc-400/20 flex items-center gap-x-1.5 transition-all"
+                className="mx-1 rounded-full text-foreground bg-zinc-300/20 hover:bg-zinc-400/20 hidden sm:flex items-center gap-x-1.5 transition-all"
                 onClick={handleSetSellAmountToHalfBalance}
                 disabled={!balance || balance.formatted === "0"}
               >

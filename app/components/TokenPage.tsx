@@ -165,7 +165,7 @@ const TokenPage = () => {
           </div>
         </div>
       </div>
-      <div className="p-2 grid grid-cols-1 md:grid-cols-5 gap-y-4 md:gap-4">
+      <div className="p-2 grid grid-cols-1 lg:grid-cols-5 gap-y-4 lg:gap-4">
         <Card className="col-span-3 pb-0 overflow-hidden h-fit">
           <CardHeader className="flex pt-4 flex-col sm:flex-row items-start sm:items-center justify-between">
             <CardTitle className="text-3xl sm:pl-3 text-zinc-800 font-normal gap-y-1.5 flex flex-col items-start justify-start">

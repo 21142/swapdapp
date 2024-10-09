@@ -26,7 +26,7 @@ function RootLayout({ children }: RootLayoutProps) {
     <html lang="en">
       <body>
         <div className="container mx-auto">
-          <div className="-z-10 background--custom absolute inset-0 w-full h-full min-w-screen min-h-screen" />
+          <div className="-z-10 background--custom absolute inset-0 w-full h-full" />
           <AppProviders>
             <header className="px-8 z-40">
               <div className="flex h-20 items-center justify-between py-6">
