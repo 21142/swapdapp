@@ -3,7 +3,7 @@ import {
   POLYGON_AND_SEPOLIA_EXCHANGE_PROXY,
 } from "@/lib/constants";
 import { useEffect } from "react";
-import { Address, erc20Abi } from "viem";
+import { type Address, erc20Abi } from "viem";
 import {
   useReadContract,
   useSimulateContract,
@@ -17,7 +17,6 @@ type Props = {
   takerAddress: Address;
   sellTokenAddress: Address;
   disabled: boolean;
-  chainId: number;
   onClick: () => void;
 };
 
@@ -25,7 +24,6 @@ const ReviewAndApproveOrder = ({
   takerAddress,
   sellTokenAddress,
   disabled,
-  chainId,
   onClick,
 }: Props) => {
   const { data: allowance, refetch } = useReadContract({

@@ -1,6 +1,6 @@
 import { SEPOLIA_CHAIN_ID } from "@/lib/constants";
 import { type NextRequest } from "next/server";
-import { ZeroExApiQuoteResponse } from "../../../types";
+import { type ZeroExApiQuoteResponse } from "../../../types";
 
 async function fetchQuoteData(
   searchParams: URLSearchParams,

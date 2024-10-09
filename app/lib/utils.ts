@@ -9,7 +9,7 @@ import {
   SEPOLIA_CHAIN_ID,
   SEPOLIA_TOKENS,
   SEPOLIA_TOKENS_BY_SYMBOL,
-  Token,
+  type Token,
 } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {

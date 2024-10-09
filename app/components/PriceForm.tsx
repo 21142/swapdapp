@@ -7,7 +7,7 @@ import { ArrowUpDown } from "lucide-react";
 import qs from "qs";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { type Address, formatUnits, parseUnits } from "viem";
-import { ZeroExApiPriceResponse } from "../../types";
+import { type ZeroExApiPriceResponse } from "../../types";
 import TokenSelector from "./TokenSelector";
 
 interface PriceFormProps {
@@ -35,7 +35,7 @@ interface PriceFormProps {
   setPrice: Dispatch<SetStateAction<string | undefined>>;
   swapTokenDirection: () => void;
   takerAddress: Address | undefined;
-  setPriceResponse?: (price: any) => void;
+  setPriceResponse: (price: ZeroExApiPriceResponse) => void;
 }
 
 const PriceForm: React.FC<PriceFormProps> = ({
@@ -118,7 +118,7 @@ const PriceForm: React.FC<PriceFormProps> = ({
       }
       if (data.buyAmount) {
         setBuyAmount(formatUnits(BigInt(data.buyAmount), buyTokenDecimals));
-        setPriceResponse && setPriceResponse(data);
+        setPriceResponse(data);
       }
     }
 
@@ -132,8 +132,10 @@ const PriceForm: React.FC<PriceFormProps> = ({
     chainId,
     sellAmount,
     setPrice,
-    FEE_RECIPIENT,
-    AFFILIATE_FEE,
+    takerAddress,
+    setBuyAmount,
+    buyTokenDecimals,
+    setPriceResponse,
   ]);
 
   return (

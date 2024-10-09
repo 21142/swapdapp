@@ -32,7 +32,7 @@ export interface ZeroExApiPriceResponse {
   buyAmount: string;
   sellTokenAddress: Address;
   sellAmount: string;
-  sources: any[];
+  sources: unknown[];
   allowanceTarget: string;
   sellTokenToEthRate: string;
   buyTokenToEthRate: string;
@@ -60,8 +60,8 @@ export interface ZeroExApiQuoteResponse {
   sellTokenAddress: string;
   buyAmount: string;
   sellAmount: string;
-  sources: any[];
-  orders: any[];
+  sources: unknown[];
+  orders: unknown[];
   allowanceTarget: string;
   decodedUniqueId: string;
   sellTokenToEthRate: string;

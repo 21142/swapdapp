@@ -30,9 +30,12 @@ import { Copy, FileSearch } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Address, parseUnits } from "viem";
+import { type Address, parseUnits } from "viem";
 import { useAccount, useBalance, useChainId, useSwitchChain } from "wagmi";
-import { ZeroExApiPriceResponse, ZeroExApiQuoteResponse } from "../../types";
+import {
+  type ZeroExApiPriceResponse,
+  type ZeroExApiQuoteResponse,
+} from "../../types";
 import PeriodButtons from "./PeriodButtons";
 import PriceForm from "./PriceForm";
 import QuoteForm from "./QuoteForm";
@@ -42,7 +45,7 @@ import Spinner from "./Spinner";
 interface Props {
   address: Address | undefined;
   priceResponse: ZeroExApiPriceResponse | undefined;
-  setPriceResponse: (price: any) => void;
+  setPriceResponse: (price: ZeroExApiPriceResponse) => void;
 }
 
 const TokenPage = () => {
@@ -77,8 +80,8 @@ const TokenPage = () => {
   });
 
   const insufficientBalance =
-    balance && sellAmount
-      ? parseUnits(sellAmount, sellTokenData?.decimals!) > balance.value
+    balance && sellAmount && sellTokenData
+      ? parseUnits(sellAmount, sellTokenData?.decimals) > balance.value
       : true;
 
   const swapTokenDirection = () => {
@@ -280,7 +283,6 @@ const TokenPage = () => {
               ) : (
                 <ReviewAndApproveOrder
                   sellTokenAddress={priceResponse?.sellTokenAddress}
-                  chainId={chainId}
                   takerAddress={address}
                   disabled={insufficientBalance}
                   onClick={() => setFinalize(true)}

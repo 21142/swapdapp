@@ -13,15 +13,18 @@ import { ArrowDown, FileSearch } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import qs from "qs";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { Address, formatUnits } from "viem";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
+import { type Address, formatUnits } from "viem";
 import {
-  BaseError,
+  type BaseError,
   useSendTransaction,
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { ZeroExApiPriceResponse, ZeroExApiQuoteResponse } from "../../types";
+import {
+  type ZeroExApiPriceResponse,
+  type ZeroExApiQuoteResponse,
+} from "../../types";
 import { cn } from "../lib/utils";
 import SeparatorVertical from "./SeparatorVertical";
 import Spinner from "./Spinner";
@@ -244,14 +247,13 @@ const QuoteView: React.FC<Props> = ({
                 className="font-bold py-2 px-4 rounded-full w-full"
                 disabled={isPending || isConfirming || isConfirmed}
                 onClick={() => {
-                  sendTransaction &&
-                    sendTransaction({
-                      gas: quote?.gas,
-                      to: quote?.to,
-                      value: quote?.value,
-                      data: quote?.data,
-                      gasPrice: quote?.gasPrice,
-                    });
+                  sendTransaction({
+                    gas: quote?.gas,
+                    to: quote?.to,
+                    value: quote?.value,
+                    data: quote?.data,
+                    gasPrice: quote?.gasPrice,
+                  });
                 }}
               >
                 {isPending ? (

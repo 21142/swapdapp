@@ -1,6 +1,6 @@
 import { SEPOLIA_CHAIN_ID } from "@/lib/constants";
 import { type NextRequest } from "next/server";
-import { ZeroExApiPriceResponse } from "../../../types";
+import { type ZeroExApiPriceResponse } from "../../../types";
 
 async function fetchPriceData(
   searchParams: URLSearchParams,
