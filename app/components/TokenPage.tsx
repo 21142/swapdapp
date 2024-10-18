@@ -29,7 +29,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Copy, FileSearch } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { type Address, parseUnits } from "viem";
 import { useAccount, useBalance, useChainId, useSwitchChain } from "wagmi";
 import {
@@ -47,6 +47,8 @@ interface Props {
   priceResponse: ZeroExApiPriceResponse | undefined;
   setPriceResponse: (price: ZeroExApiPriceResponse) => void;
 }
+
+const PriceFormMemo = memo(PriceForm);
 
 const TokenPage = () => {
   const [period, setPeriod] = useState<PeriodsType>(periods.ONE_DAY);
@@ -238,7 +240,7 @@ const TokenPage = () => {
             />
           ) : (
             <CardContent className="p-0 flex flex-col w-full h-full rounded-lg">
-              <PriceForm
+              <PriceFormMemo
                 chainId={chainId}
                 sellToken={sellToken}
                 setSellToken={setSellToken}

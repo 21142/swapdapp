@@ -124,7 +124,7 @@ const QuoteView: React.FC<Props> = ({
   const buyTokenInfo = getTokenInfo(priceResponse?.buyTokenAddress, chainId);
 
   const formatTokenAmount = (amount: string, decimals: number) =>
-    formatUnits(BigInt(amount), decimals);
+    parseFloat(formatUnits(BigInt(amount), decimals)).toFixed(8);
 
   return (
     <>
@@ -188,7 +188,6 @@ const QuoteView: React.FC<Props> = ({
                 )}
               </Label>
             </div>
-            {}
             <div className="flex justify-start items-center text-xl font-semibold pt-0 pb-4 p-2 ml-4">
               {buyTokenInfo && (
                 <>

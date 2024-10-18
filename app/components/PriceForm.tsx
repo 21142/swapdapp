@@ -5,7 +5,13 @@ import { AFFILIATE_FEE, FEE_RECIPIENT, type Token } from "@/lib/constants";
 import { getTokensBySymbolByChain } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import qs from "qs";
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { type Address, formatUnits, parseUnits } from "viem";
 import { type ZeroExApiPriceResponse } from "../../types";
 import TokenSelector from "./TokenSelector";
@@ -87,13 +93,14 @@ const PriceForm: React.FC<PriceFormProps> = ({
     }
   };
 
-  const handleSetSellAmountToHalfBalance = () => {
+  const handleSetSellAmountToHalfBalance = useCallback(() => {
     if (balance) {
       const amount = (BigInt(balance.value) * BigInt(50)) / BigInt(100);
       const formattedAmount = formatUnits(amount, balance.decimals);
+
       setSellAmount(formattedAmount);
     }
-  };
+  }, [balance, setSellAmount]);
 
   useEffect(() => {
     const params = {
@@ -117,7 +124,11 @@ const PriceForm: React.FC<PriceFormProps> = ({
         setError([]);
       }
       if (data.buyAmount) {
-        setBuyAmount(formatUnits(BigInt(data.buyAmount), buyTokenDecimals));
+        setBuyAmount(
+          parseFloat(
+            formatUnits(BigInt(data.buyAmount), buyTokenDecimals)
+          ).toFixed(8)
+        );
         setPriceResponse(data);
       }
     }
@@ -180,9 +191,9 @@ const PriceForm: React.FC<PriceFormProps> = ({
               </Button>
               <Button
                 className="mx-1 rounded-full text-foreground bg-zinc-300/20 hover:bg-zinc-400/20 flex items-center gap-x-1.5 transition-all"
-                onClick={() => {
+                onClick={useCallback(() => {
                   setSellAmount(balance?.formatted as string);
-                }}
+                }, [balance, setSellAmount])}
                 disabled={!balance || balance.formatted === "0"}
               >
                 Max
@@ -236,7 +247,10 @@ const PriceForm: React.FC<PriceFormProps> = ({
             {buyAmount
               ? "Fee: " +
                 (Number(buyAmount) * AFFILIATE_FEE).toFixed(
-                  getTokensBySymbolByChain(chainId)[buyToken].decimals
+                  Math.min(
+                    8,
+                    getTokensBySymbolByChain(chainId)[buyToken].decimals
+                  )
                 ) +
                 " " +
                 getTokensBySymbolByChain(chainId)[buyToken].symbol
